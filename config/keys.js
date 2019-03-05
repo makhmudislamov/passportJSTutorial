@@ -6,5 +6,8 @@ module.exports = {
     },
     mongodb: {
         dbURI: 'mongodb://makhmud:tutorial13@ds151805.mlab.com:51805/oauth-tutorial'
+    },
+    session: {
+        cookieKey: 'imdoingthisforbewclassarticle'
     }
 };
