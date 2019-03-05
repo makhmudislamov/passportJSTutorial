@@ -12,17 +12,24 @@ passport.use(
         clientID: keys.google.clientID,
         clientSecret: keys.google.clientSecret
     }, (accessToken, refreshToken, profile, done) => {
-        // callback
-        console.log('callback func is working')
-        console.log(profile)
-        new User({
-            username: profile.displayName,
-            googleId: profile.id
-        // saving the user to db - asynch task
-        }).save()
-        .then((newUser) => {
-            console.log('new user created:' + newUser);
-        });
+        // check if user exists in db
+        User.findOne({googleId: profile.id}).then((currentUser) => {
+            if(currentUser){
+                // already have the user
+                console.log(`user is ${currentUser}`)
+            } else {
+                // create new user
+                new User({
+                    username: profile.displayName,
+                    googleId: profile.id
+                    // saving the user to db - asynch task
+                }).save()
+                    .then((newUser) => {
+                        console.log(`new user created: ${newUser}`);
+                    });
+            }
+        })
+        
     })
 
 );
