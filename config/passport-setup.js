@@ -34,7 +34,8 @@ passport.use(
                 // create new user
                 new User({
                     username: profile.displayName,
-                    googleId: profile.id
+                    googleId: profile.id,
+                    thumbnail: profile._json.image.url
                     // saving the user to db - asynch task
                 }).save()
                     .then((newUser) => {
