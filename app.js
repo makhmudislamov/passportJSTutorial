@@ -3,6 +3,8 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
+const keys = require('./config/keys');
 
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
@@ -20,6 +22,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// connect to mongodb
+mongoose.connect(keys.mongodb.dbURI, () => {
+  console.log('connected to mongodb')
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
